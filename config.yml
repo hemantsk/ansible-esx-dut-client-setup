@@ -1,0 +1,32 @@
+vcenter_hostname: <vcenter_ip>
+vcenter_username: <vcenter_username>
+vcenter_password: <vcenter_password>
+datacenter: <datacenter_name>
+esxi_host: <esxi_host_ip>
+management_vlan: <managemant_vlan>
+# Configure these to your needs
+resource_pool: </Resorces/name>
+dut_name: <name_of_DUT>
+dut_template: <DUT_template>
+client_name: <name_of_client>
+client_template: <client_template>
+management_network_type: dvs
+client_vlan: <client_portgroup_name>
+server_vlan: <server_portgroup_name>
+test_vlan_network_type: dvs
+# portgroup creation
+switch_name: <switch_name>
+client_portgroup_name: <client_portgroup_name>
+client_vlan_id: <client_vlan_id>
+server_portgroup_name: <server_portgroup_name>
+server_vlan_id: <server_vlan_id>
+# DUT Username Password
+dut_username: admin
+dut_password: admin
+# Client Username Password
+client_username: test
+client_password: test
+# dhcp server info - optional
+dhcp_name: <dhcp_server_name>
+# optional iso ubuntu image
+ubuntu_iso: "Storage/Hemantkumar/ubuntu-16.04-desktop-amd64.iso"
