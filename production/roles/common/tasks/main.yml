@@ -1,0 +1,46 @@
+  - name: Create a Client portgroup
+    local_action:
+      module: vmware_dvs_portgroup
+      hostname: "{{vcenter_hostname}}"
+      username: "{{vcenter_username}}"
+      password: "{{vcenter_password}}"
+      validate_certs: false
+      switch_name: "{{switch_name}}"
+      vlan_id: "{{client_vlan_id}}"
+      num_ports: 120
+      portgroup_name: "{{client_portgroup_name}}"
+      portgroup_type: earlyBinding
+      state: present
+
+  - name: Create a Server portgroup
+    local_action:
+      module: vmware_dvs_portgroup
+      hostname: "{{vcenter_hostname}}"
+      username: "{{vcenter_username}}"
+      password: "{{vcenter_password}}"
+      validate_certs: false
+      switch_name: "{{switch_name}}"
+      vlan_id: "{{server_vlan_id}}"
+      num_ports: 120
+      portgroup_name: "{{server_portgroup_name}}"
+      portgroup_type: earlyBinding
+      state: present
+
+      # - name: Shutdown DHCP server
+      #   vsphere_guest:
+      #        vcenter_hostname: "{{ vcenter_hostname }}"
+      #        username: "{{vcenter_username}}"
+      #        password: "{{vcenter_password}}"
+      #        guest: "{{dhcp_name}}"
+      #        validate_certs: false
+      #        state: powered_off
+      #        force: yes
+      #
+      # - name: Start DHCP server
+      #   vsphere_guest:
+      #       vcenter_hostname: "{{ vcenter_hostname }}"
+      #       username: "{{vcenter_username}}"
+      #       password: "{{vcenter_password}}"
+      #       validate_certs: false
+      #       guest: "{{dhcp_name}}"
+      #       state:  powered_on

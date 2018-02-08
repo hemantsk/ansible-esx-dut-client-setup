@@ -1,0 +1,62 @@
+   - name: Create Ubuntu
+     vsphere_guest:
+       vcenter_hostname: "{{ vcenter_hostname }}"
+       username: "{{vcenter_username}}"
+       password: "{{vcenter_password}}"
+       guest: "{{client_name}}"
+       validate_certs: false
+       from_template: yes
+       template_src: "{{client_template}}"
+       resource_pool: "{{resource_pool}}"
+
+   - name: Shutdown Ubuntu
+     vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{vcenter_username}}"
+        password: "{{vcenter_password}}"
+        guest: "{{client_name}}"
+        validate_certs: false
+        state: powered_off
+        force: yes
+
+   - name: Reconfigure Ubuntu VM instance
+     vsphere_guest:
+      vcenter_hostname: "{{ vcenter_hostname }}"
+      username: "{{vcenter_username}}"
+      password: "{{vcenter_password}}"
+      validate_certs: false
+      guest: "{{client_name}}"
+      state: reconfigured
+      vm_extra_config:
+       vcpu.hotadd: yes
+       mem.hotadd:  yes
+       notes: This is a test VM
+       folder: Test
+      vm_nic:
+       nic1:
+         type: vmxnet3
+         network: "{{management_vlan}}"
+         network_type: "{{management_network_type}}"
+       nic2:
+         type: vmxnet3
+         network: "{{client_vlan}}"
+         network_type: dvs
+       nic3:
+         type: vmxnet3
+         network: "{{server_vlan}}"
+         network_type: dvs
+      vm_hardware:
+       memory_mb: 12228
+       num_cpus: 4
+      esxi:
+       datacenter: "{{datacenter}}"
+       hostname: "{{esxi_host}}"
+
+   - name: Start Ubuntu
+     vsphere_guest:
+       vcenter_hostname: "{{ vcenter_hostname }}"
+       username: "{{vcenter_username}}"
+       password: "{{vcenter_password}}"
+       validate_certs: false
+       guest: "{{client_name}}"
+       state:  powered_on

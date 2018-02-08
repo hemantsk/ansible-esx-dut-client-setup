@@ -1,0 +1,9 @@
+- name: Configure variables for Vcenter
+  hosts: vcenter_server
+  connection: local
+  gather_facts: no
+  vars_files:
+    - ../config.yml
+  roles:
+      - common
+      - dut

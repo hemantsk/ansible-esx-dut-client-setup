@@ -1,0 +1,3 @@
+---
+- import_playbook: dut.yml
+- import_playbook: client.yml

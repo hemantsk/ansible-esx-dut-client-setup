@@ -1,0 +1,61 @@
+   - name: Create DUT
+     vsphere_guest:
+       vcenter_hostname: "{{ vcenter_hostname }}"
+       username: "{{vcenter_username}}"
+       password: "{{vcenter_password}}"
+       guest: "{{dut_name}}"
+       validate_certs: false
+       from_template: yes
+       template_src: "{{dut_template}}"
+       resource_pool: "{{resource_pool}}"
+
+   - name: shutdown DUT
+     vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{vcenter_username}}"
+        password: "{{vcenter_password}}"
+        guest: "{{dut_name}}"
+        validate_certs: false
+        state: powered_off
+        force: yes
+
+   - name: Reconfigure DUT
+     vsphere_guest:
+       vcenter_hostname: "{{ vcenter_hostname }}"
+       username: "{{vcenter_username}}"
+       password: "{{vcenter_password}}"
+       guest: "{{dut_name}}"
+       state:  reconfigured
+       validate_certs: false
+       vm_extra_config:
+        vcpu.hotadd: yes
+        mem.hotadd:  yes
+        folder: Test
+       vm_nic:
+           nic1:
+             type: vmxnet3
+             network: "{{management_vlan}}"
+             network_type: "{{management_network_type}}"
+           nic2:
+             type: vmxnet3
+             network: "{{client_vlan}}"
+             network_type: dvs
+           nic3:
+             type: vmxnet3
+             network: "{{server_vlan}}"
+             network_type: dvs
+       vm_hardware:
+           memory_mb: 16384
+           num_cpus: 8
+       esxi:
+        datacenter: "{{datacenter}}"
+        hostname: "{{esxi_host}}"
+
+   - name: Start DUT
+     vsphere_guest:
+       vcenter_hostname: "{{ vcenter_hostname }}"
+       username: "{{vcenter_username}}"
+       password: "{{vcenter_password}}"
+       validate_certs: false
+       guest: "{{dut_name}}"
+       state:  powered_on
